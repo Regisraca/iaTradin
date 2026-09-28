@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070a0d">
+<title>AI Market — Quant Trading Floor</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app" class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">AI</div><div><strong>AI MARKET</strong><span>QUANT COMMAND CENTER</span></div></div>
+    <div class="top-metrics">
+      <div><span>PORTFÓLIO</span><b id="portfolioValue">—</b></div>
+      <div><span>HOJE</span><b id="todayValue" class="green">—</b></div>
+      <div><span>DRAWDOWN</span><b id="drawdownValue">—</b></div>
+    </div>
+    <div class="connection"><i id="connectionDot"></i><span id="connectionText">SEM FONTE</span></div>
+    <button id="settingsBtn" class="round-btn" aria-label="Configurações">⚙</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="floor-panel panel">
+        <div class="panel-head">
+          <div><small>CENTRAL DE ALGORITMOS</small><h1>Quant Trading Floor</h1></div>
+          <div class="head-actions"><span class="live"><i></i> AO VIVO</span><button id="viewBtn" class="ghost">▣ VISÃO GERAL</button></div>
+        </div>
+        <div class="wall-stats">
+          <div><span>ALGORITMOS</span><strong id="algoCount">—</strong></div>
+          <div><span>EM OPERAÇÃO</span><strong id="activeCount">—</strong></div>
+          <div><span>SINAIS</span><strong id="signalCount">—</strong></div>
+          <div><span>ORDENS</span><strong id="orderCount">—</strong></div>
+          <div class="market-label"><b id="marketLabel">MERCADO</b><span id="marketStatus">aguardando dados reais</span></div>
+        </div>
+        <div id="floorViewport" class="floor-viewport">
+          <div class="back-wall"><div class="wall-logo">Quant<br><em>Command</em></div><div class="ticker-wall"><span>MARKET DATA</span><b id="wallTicker">—</b><small id="wallSub">Nenhuma fonte conectada</small></div></div>
+          <div id="floor" class="floor"></div>
+          <div class="floor-glow"></div>
+          <div class="floor-empty" id="floorEmpty"><b>Trading floor aguardando conexão</b><span>Os agentes, P&amp;L e sinais só aparecem quando uma fonte real for conectada.</span></div>
+          <div class="camera-controls"><button data-cam="in">＋</button><button data-cam="out">−</button><button data-cam="reset">↺</button></div>
+        </div>
+        <div class="floor-footer"><span>54 posições de algoritmo disponíveis</span><span id="selectedLabel">Nenhum algoritmo selecionado</span></div>
+      </div>
+
+      <aside class="performance panel">
+        <div class="panel-title"><span>PERFORMANCE</span><button id="rangeBtn">24H ▾</button></div>
+        <div class="perf-main"><b id="perfValue">—</b><small id="perfSub">sem dados</small></div>
+        <canvas id="chart" height="150"></canvas>
+        <div class="stat-grid">
+          <div><span>WIN RATE</span><b id="winRate">—</b></div><div><span>TRADES</span><b id="trades">—</b></div>
+          <div><span>RISCO</span><b id="risk">—</b></div><div><span>DRAWDOWN</span><b id="drawdown">—</b></div>
+        </div>
+        <div class="portfolio-bar"><div><span>CAPITAL ALOCADO</span><b id="allocated">—</b></div><div class="bar"><i id="allocatedBar"></i></div></div>
+      </aside>
+    </section>
+
+    <section class="dashboard-grid">
+      <div class="agents panel">
+        <div class="panel-title"><span>ALGORITMOS / AGENTES</span><button id="agentFilter">TODOS ▾</button></div>
+        <div id="agentList" class="list"></div>
+      </div>
+      <div class="signals panel">
+        <div class="panel-title"><span>FLUXO DE SINAIS</span><span class="count" id="signalBadge">—</span></div>
+        <div id="signalList" class="list"></div>
+      </div>
+      <div class="selected panel">
+        <div class="panel-title"><span>ALGORITMO SELECIONADO</span></div>
+        <div id="selectedEmpty" class="selected-empty"><div class="big-avatar">AI</div><b>Nenhum agente selecionado</b><span>Clique em uma mesa quando houver dados conectados.</span></div>
+        <div class="agent-live-strip"><div><span>EMA 9</span><b id="ema9Value">—</b></div><div><span>EMA 21</span><b id="ema21Value">—</b></div><div><span>RSI 14</span><b id="rsiValue">—</b></div><div><span>SINAL</span><b id="signalValue">—</b></div><div><span>POSIÇÃO</span><b id="positionValue">—</b></div></div>
+        <div id="selectedBody" class="hidden">
+          <div class="selected-head"><div id="selectedAvatar" class="big-avatar">AI</div><div><h2 id="selectedName">—</h2><span id="selectedStatus" class="status">—</span></div></div>
+          <div class="detail-grid"><div><span>CAPITAL</span><b id="selectedCapital">—</b></div><div><span>P&amp;L</span><b id="selectedPnl">—</b></div><div><span>OPERAÇÕES</span><b id="selectedTrades">—</b></div><div><span>CONFIANÇA</span><b id="selectedConfidence">—</b></div><div><span>POSIÇÃO</span><b id="selectedPosition">—</b></div><div><span>ENTRADA</span><b id="selectedEntry">—</b></div><div><span>STOP</span><b id="selectedStop">—</b></div><div><span>ALVO</span><b id="selectedTarget">—</b></div></div>
+          <button id="pauseBtn" class="primary">Reiniciar agente</button>
+          <button id="resetPaperBtn" class="secondary">Zerar histórico PAPER</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="activity panel">
+      <div class="panel-title"><span>ATIVIDADE</span><span id="activityState">sem eventos</span></div>
+      <div id="activityList" class="activity-list"><div class="empty-row">Nenhum evento recebido.</div></div>
+    </section>
+  </main>
+
+  <footer><span>AI MARKET • QUANT COMMAND CENTER</span><span id="footerStatus">Modo conectado: nenhum</span></footer>
+</div>
+
+<div id="settingsModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><div><small>FONTE DE DADOS</small><h2>Conectar o Command Center</h2></div><button id="closeSettings" class="round-btn">×</button></div>
+  <p>O modo <b>Mercado ao vivo</b> alimenta os 54 agentes com dados públicos em tempo real. Os agentes abrem e fecham operações <b>somente em PAPER</b>, calculam P&amp;L, stop, alvo e histórico local. Nenhuma ordem é enviada para corretoras.</p>
+  <label>Modo de dados<select id="dataMode"><option value="live">Mercado ao vivo (somente leitura)</option><option value="none">Somente interface</option><option value="json">Importar JSON</option><option value="supabase">Supabase</option></select></label>
+  <div id="supabaseFields" class="source-fields hidden"><label>Supabase URL<input id="sbUrl" placeholder="https://....supabase.co"></label><label>Anon key<input id="sbKey" type="password" placeholder="eyJ..."></label><label>Tabela<input id="sbTable" value="market_agents"></label></div>
+  <div id="liveFields" class="source-fields"><label>Ativo<select id="liveSymbol"><option value="BTCUSDT">BTC / USDT</option><option value="ETHUSDT">ETH / USDT</option><option value="SOLUSDT">SOL / USDT</option><option value="BNBUSDT">BNB / USDT</option></select></label><label>Intervalo<select id="liveInterval"><option value="1m">1 minuto</option><option value="5m">5 minutos</option><option value="15m">15 minutos</option></select></label><label>Capital inicial PAPER<input id="paperCapital" type="number" min="100" step="50" value="1000"></label></div>
+  <div id="jsonFields" class="source-fields hidden"><label>Arquivo JSON<input id="jsonFile" type="file" accept="application/json"></label></div>
+  <div class="modal-actions"><button id="disconnectBtn" class="ghost">Desconectar</button><button id="connectBtn" class="primary">Conectar</button></div>
+  <small class="hint">Sinais são apenas informativos/paper: nenhum botão ou rotina desta versão envia ordens para uma corretora. As configurações locais ficam salvas neste navegador. A chave anon do Supabase pode ser pública; nunca coloque uma service_role key no front-end.</small>
+</div></div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script src="engine.js"></script>
+<script src="live.js"></script>
+</body>
+</html>
